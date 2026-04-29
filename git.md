@@ -1,4 +1,5 @@
-# Commands
+# Git
+## Commands
 1. Check commit: git log -1 (or -2, -3...)
 2. Commit: git gui -> press commit button
 3. Create new user branch: git checkout -b usr/tdi4hc/TICKET
@@ -47,3 +48,44 @@ Clear all stashes:
     git submodule add <repo-url> etas/abo
     ->> do NOT create new folder
 
+## Setup
+Check git config file on global enviroment: *git config --global --edit*
+If error: create .gitconfig file (the path by on error notify)
+
+```ini
+[core]
+    autocrlf = true
+    longpaths = true
+[user]
+    name = Dinh
+    email = Dinh.TranDuy@vn.bosch.com
+[url "https://<token>@github.boschdevcloud.com/"]
+    insteadOf = https://github.boschdevcloud.com/
+[color]
+    ui = true
+[gitreview]
+    username = tdi4hc
+[url "ssh://tdi4hc@rbcm-gerrit.de.bosch.com:29418/"]
+    pushinsteadOf = ssh://rbcm-gerrit.de.bosch.com:29418/
+    pushinsteadOf = ssh://tdi4hc@rbcm-gerrit.de.bosch.com:29418/
+    pushinsteadOf = cm_gerrit:
+[review "https://rbcm-gerrit.de.bosch.com"]
+    username = tdi4hc
+[url "ssh://tdi4hc@rbcm-gerrit-cob.apac.bosch.com:29418/"]
+    insteadOf = ssh://rbcm-gerrit.de.bosch.com:29418/
+    insteadOf = ssh://tdi4hc@rbcm-gerrit.de.bosch.com:29418/
+    insteadOf = cm_gerrit:
+[credential "https://sourcecode.socialcoding.bosch.com"]
+    provider = bitbucket
+[credential "http://rb-proxy-de.bosch.com:8080"]
+    provider = generic
+[http]
+    proxy = http://rb-proxy-de.bosch.com:8080
+[https]
+    proxy = https://rb-proxy-de.bosch.com:8080
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+required = true
+```
