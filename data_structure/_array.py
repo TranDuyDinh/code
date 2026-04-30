@@ -113,3 +113,23 @@ class ArrayAlgorithms:
                 left = mid + 1
                 peak = array[mid + 1]
         return peak
+
+    def find_first_entry(self, array: list[int], key: int) -> int | None:
+        """
+        Binary Search: Find First Entry in List with Duplicates
+        """
+        if not array:
+            return None
+        left, right = 0, len(array) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if array[mid] < key:
+                left = mid + 1
+            elif array[mid] == key:
+                if mid - 1 < 0 or array[mid - 1] != key:
+                    return mid
+                if array[mid - 1] == key:
+                    right = mid - 1
+            else:
+                right = mid - 1
+        return None
