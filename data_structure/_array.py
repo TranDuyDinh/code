@@ -96,3 +96,20 @@ class ArrayAlgorithms:
             else:
                 left = mid + 1
         return None
+
+    def find_bitonic_peak(self, array: list[int]) -> int:
+        """
+        Binary Search: Find Bitonic Peak
+        """
+        if not array:
+            return None
+        left, right = 0, len(array) - 1
+        while left < right:
+            mid = (left + right) // 2
+            if array[mid] > array[mid + 1]:
+                right = mid
+                peak = array[mid]
+            else:
+                left = mid + 1
+                peak = array[mid + 1]
+        return peak
