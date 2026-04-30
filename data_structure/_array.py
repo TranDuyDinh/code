@@ -133,3 +133,22 @@ class ArrayAlgorithms:
             else:
                 right = mid - 1
         return None
+
+    def plus_one(self, array: list[int]) -> list[int]:
+        """
+        Array: Plus One
+        """
+        flag = True
+        index = 0
+        while flag:
+            array[-(1 + index)] = array[-(1 + index)] + 1
+            if array[-(1 + index)] < 10:
+                flag = False
+            else:
+                array[-(1 + index)] = 0
+                if index < len(array) - 1:
+                    index = index + 1
+                else:
+                    array.insert(0, 1)
+                    flag = False
+        return array
