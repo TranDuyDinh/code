@@ -79,3 +79,20 @@ class ArrayAlgorithms:
         else:
             closest_number = array[right]
         return closest_number
+
+    def find_fixed_point(self, sorted_array : list[int]) -> int | None:
+        """
+        Binary Search: Find Fixed Point in a Sorted Array
+        """
+        if not sorted_array and len(sorted_array) == 1:
+            return None
+        left, right = 0, len(sorted_array) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if mid == sorted_array[mid]:
+                return mid
+            elif mid < sorted_array[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return None
