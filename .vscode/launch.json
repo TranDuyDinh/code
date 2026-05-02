@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Release",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "pythonArgs": ["-O"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Main Debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Main Release",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "pythonArgs": ["-O"],
+            "console": "integratedTerminal"
+        },
+    ]
+}
