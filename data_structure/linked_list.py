@@ -25,6 +25,18 @@ class LinkedListAlgorithms:
         # add new node
         last_node.next = new_node
 
+    def prepend(self, data: str) -> None:
+        """
+        Singly Liked List - Prepend
+        """
+        new_node = Node(data)
+        # check 1st node
+        if self.head is None:
+            self.head = new_node
+            return
+        # assign newly node to the header
+        new_node.next = self.head
+        self.head = new_node
 
     def print_list(self):
         """
