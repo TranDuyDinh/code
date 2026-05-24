@@ -38,6 +38,51 @@ class LinkedListAlgorithms:
         new_node.next = self.head
         self.head = new_node
 
+    def length(self) -> int:
+        """
+        Singly Liked List - Length
+        """
+        current_node = self.head
+        if self.head is None:
+            return 0
+        count = 1
+        while current_node.next != None:
+            count += 1
+            current_node = current_node.next
+        return count
+    
+    def get_node_by_order(self, order: int) -> Node | None:
+        """
+        Singly Liked List - Get Node By Order
+        """
+        if self.head is None:
+            return None
+        current_node = self.head
+        count = 1
+        while current_node.next != None:
+            if count == order:
+                return current_node
+            count += 1
+            current_node = current_node.next
+        return None
+    
+    def swap_node(self, order1: str, order2: str) -> None:
+        """
+        Singly Liked List - Swap Node
+        """
+        count = 1
+        current_node = self.head
+        while current_node.next != None:
+            if count == order1:
+                buf_node = current_node
+            if count == order2:
+                buf_data = buf_node.data
+                buf_node.data = current_node.data
+                current_node.data = buf_data
+                return
+            count = count + 1
+            current_node = current_node.next
+
     def print_list(self):
         """
         Singly Liked List - Print
@@ -52,8 +97,16 @@ if __name__ == "__main__":
 
     _list = LinkedListAlgorithms()
     
-    _list.append('a')
-    _list.append('b')
-    _list.append('c')
+    _list.append('A')
+    _list.append('B')
+    _list.append('C')
+    _list.prepend('D')
+    
+    _list.print_list()
+    
+    print(f"Length: {_list.length()}")
+    node1 = _list.get_node_by_order(2)
+    node2 = _list.get_node_by_order(3)
+    _list.swap_node(2, 3)
     
     _list.print_list()
