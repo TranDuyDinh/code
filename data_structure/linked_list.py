@@ -51,12 +51,13 @@ class LinkedListAlgorithms:
             current_node = current_node.next
         return count
     
-    def get_node_by_order(self, order: int) -> Node | None:
+    # def get_node_by_order(self, order: int) -> Node | None:
+    def get_node_by_order(self, order: int) -> Node:
         """
         Singly Liked List - Get Node By Order
         """
-        if self.head is None:
-            return None
+        # if self.head is None:
+        #     return None
         current_node = self.head
         count = 1
         while current_node.next != None:
@@ -64,7 +65,7 @@ class LinkedListAlgorithms:
                 return current_node
             count += 1
             current_node = current_node.next
-        return None
+        # return None
     
     def swap_node(self, order1: str, order2: str) -> None:
         """
