@@ -8,6 +8,37 @@ class LinkedListAlgorithms:
     def __init__(self) -> None:
         self.head = None
 
+    def reverse(self) -> None:
+        """
+        Singly Liked List - Reverse
+        """
+        if self.head is None:
+            return
+        count = target = 0
+        current_node = self.head
+        while current_node.next != None:
+            # swap 2 nodes
+            buffer_value = current_node.data
+            current_node.data = current_node.next.data
+            current_node.next.data = buffer_value
+            current_node = current_node.next
+            count = count + 1
+        current_node = self.head
+        target = count - 1
+        count = 0
+        while target != 1:
+            if count == target:
+                current_node = self.head
+                count = 0
+                target = target - 1
+            # swap 2 nodes
+            buffer_value = current_node.data
+            current_node.data = current_node.next.data
+            current_node.next.data = buffer_value
+            current_node = current_node.next
+            count = count + 1
+
+
     def append(self, data : str) -> None:
         """
         Singly Liked List - Append
@@ -101,13 +132,8 @@ if __name__ == "__main__":
     _list.append('A')
     _list.append('B')
     _list.append('C')
-    _list.prepend('D')
+    _list.append('D')
     
     _list.print_list()
-    
-    print(f"Length: {_list.length()}")
-    node1 = _list.get_node_by_order(2)
-    node2 = _list.get_node_by_order(3)
-    _list.swap_node(2, 3)
-    
+    _list.reverse()
     _list.print_list()
