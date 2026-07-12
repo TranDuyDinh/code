@@ -1,30 +1,52 @@
 path_to_file = "C://Users//Tran Duy Dinh//Documents//GitHub//code//data_structure//src//Hash Table//stock_prices.csv"
 
-# list
-stock_prices = []
-with open(path_to_file, "r") as f:
-    for line in f:
-        tokens = line.split(',')
-        day = tokens[0]
-        prices = float(tokens[1])
-        stock_prices.append([day, prices])
+" dictionary "
+def load_data_from_csv(file_path):
+    data = {}
+    with open(file_path, "r") as f:
+        for line in f:
+            tokens = line.strip().split(',')
+            day = tokens[0]
+            prices = float(tokens[1])
+            data[day] = prices
+    return data
 
-print(stock_prices)
+" list "
+# def load_data_from_csv(file_path):
+#     data = []
+#     with open(file_path, "r") as f:
+#         for line in f:
+#             tokens = line.strip().split(',')
+#             day = tokens[0]
+#             prices = float(tokens[1])
+#             data.append([day, prices])
+#     return data
 
-for element in stock_prices:
-    if element[0] == '09-Mar':
-        print(element[1])
+def get_hash(key):
+    h = 0
+    for char in key:
+        h += ord(char)
+    return h % 100
 
-# dictionary
-stock_prices = {}
-with open(path_to_file, "r") as f:
-    for line in f:
-        tokens = line.split(',')
-        day = tokens[0]
-        prices = float(tokens[1])
-        stock_prices[day] = [prices]
+if __name__ == "__main__":
+    stock_prices = load_data_from_csv(path_to_file)
+    print(stock_prices)
 
-print(stock_prices)
-print(stock_prices['09-Mar'])
+    # Dictionary
+    print(stock_prices['09-Mar'])
 
-print("\nGoodbye...")
+    # List
+    # for element in stock_prices:
+    #     if element[0] == '09-Mar':
+    #         print(element[1])
+
+    print(get_hash('09-Mar'))
+    print("\nGoodbye...")
+
+
+
+
+
+
+
+
