@@ -22,25 +22,39 @@ def load_data_from_csv(file_path):
 #             data.append([day, prices])
 #     return data
 
-def get_hash(key):
-    h = 0
-    for char in key:
-        h += ord(char)
-    return h % 100
+
+class HashTable:
+
+    def __init__(self):
+        self.size = 100
+        self.table = [None] * self.size
+
+    def get_hash(self, key):
+        h = 0
+        for char in key:
+            h += ord(char)
+        return h % 100
+
+
+
 
 if __name__ == "__main__":
     stock_prices = load_data_from_csv(path_to_file)
-    print(stock_prices)
+    # print(stock_prices)
 
     # Dictionary
-    print(stock_prices['09-Mar'])
+    # print("09-Mar:", stock_prices['09-Mar'])
 
     # List
     # for element in stock_prices:
     #     if element[0] == '09-Mar':
     #         print(element[1])
 
-    print(get_hash('09-Mar'))
+    table = [None for i in range(5)]
+    print(table)
+
+
+    # print(get_hash('09-Mar'))
     print("\nGoodbye...")
 
 
