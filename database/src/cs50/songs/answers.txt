@@ -1,0 +1,1 @@
+To run: sqlite3 database.db < path/file.sql
