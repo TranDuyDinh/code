@@ -1,4 +1,6 @@
 import csv
+import sqlite3
+
 path_file = "src\\cs50\\stock_prices.csv"
 
 counts = {}
@@ -19,3 +21,16 @@ with open(path_file, 'r') as file:
 
 for comp in counts:
     print(comp, counts[comp])
+
+# connect to database file
+conn = sqlite3.connect("src\\cs50\\test_01.db")
+cursor = conn.cursor()
+
+# query the database
+cursor.execute("SELECT * FROM stock LIMIT 3")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+# close connection
+conn.close()
