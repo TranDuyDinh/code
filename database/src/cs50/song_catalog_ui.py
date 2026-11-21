@@ -1,17 +1,8 @@
+import sqlite3
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox, ttk
 
-
-SONGS = (
-    (1, "Blinding Lights", "The Weeknd"),
-    (2, "Levitating", "Dua Lipa"),
-    (3, "Stay", "The Kid LAROI, Justin Bieber"),
-    (4, "As It Was", "Harry Styles"),
-    (5, "Shivers", "Ed Sheeran"),
-    (6, "good 4 u", "Olivia Rodrigo"),
-    (7, "Heat Waves", "Glass Animals"),
-    (8, "Peaches", "Justin Bieber, Daniel Caesar, Giveon"),
-)
+from song_repository import DATABASE_PATH, load_songs
 
 
 def create_window():
@@ -70,15 +61,37 @@ def create_window():
     table.grid(row=0, column=0, sticky="nsew")
     scrollbar.grid(row=0, column=1, sticky="ns")
 
-    for index, song in enumerate(SONGS):
-        table.insert("", "end", values=song, tags=("even",) if index % 2 else ())
-
-    ttk.Label(
+    status = ttk.Label(
         content,
-        text="{} songs".format(len(SONGS)),
+        text="",
         font=("Segoe UI", 9),
         foreground="#5b6573",
-    ).grid(row=3, column=0, sticky="w", pady=(12, 0))
+    )
+    status.grid(row=3, column=0, sticky="w", pady=(12, 0))
+
+    def refresh_songs():
+        try:
+            songs = load_songs()
+        except sqlite3.Error as error:
+            status.configure(text="Unable to load songs")
+            messagebox.showerror(
+                "Database Error",
+                "Could not read the song database at:\n{}\n\n{}".format(
+                    DATABASE_PATH, error
+                ),
+                parent=root,
+            )
+            return
+
+        table.delete(*table.get_children())
+        for index, song in enumerate(songs):
+            table.insert("", "end", values=song, tags=("even",) if index % 2 else ())
+        status.configure(text="{} songs".format(len(songs)))
+
+    ttk.Button(content, text="Reload", command=refresh_songs).grid(
+        row=0, column=1, sticky="e"
+    )
+    refresh_songs()
 
     return root
 
