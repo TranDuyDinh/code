@@ -2,15 +2,15 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from song_repository import DATABASE_PATH, load_songs
+from interfaces import DATABASE_PATH, load_songs
 
 
 def create_window():
     root = tk.Tk()
-    root.title("Song Catalog")
+    root.title("Test")
     root.geometry("800x460")
     root.minsize(620, 340)
-    root.configure(background="#f4f6f8")
+    root.configure(background="#ffffff")
 
     style = ttk.Style(root)
     style.configure("Catalog.Treeview", rowheight=36, font=("Segoe UI", 10))
@@ -25,15 +25,9 @@ def create_window():
     content.columnconfigure(0, weight=1)
     content.rowconfigure(2, weight=1)
 
-    ttk.Label(content, text="Song Catalog", font=("Segoe UI", 19, "bold")).grid(
+    ttk.Label(content, text="Songs", font=("Segoe UI", 19, "bold")).grid(
         row=0, column=0, sticky="w"
     )
-    ttk.Label(
-        content,
-        text="Browse songs and artists",
-        font=("Segoe UI", 10),
-        foreground="#5b6573",
-    ).grid(row=1, column=0, sticky="w", pady=(4, 16))
 
     table_frame = ttk.Frame(content)
     table_frame.grid(row=2, column=0, sticky="nsew")
@@ -54,7 +48,7 @@ def create_window():
     table.column("id", width=70, minwidth=60, stretch=False, anchor="w")
     table.column("name", width=280, minwidth=160, anchor="w")
     table.column("artists", width=340, minwidth=180, anchor="w")
-    table.tag_configure("even", background="#f5f7fa")
+    table.tag_configure("even", background="#dde6f4")
 
     scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=table.yview)
     table.configure(yscrollcommand=scrollbar.set)
@@ -96,5 +90,3 @@ def create_window():
     return root
 
 
-if __name__ == "__main__":
-    create_window().mainloop()
