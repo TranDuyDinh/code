@@ -2,7 +2,7 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from interfaces import DATABASE_PATH, load_songs
+from interfaces import DATABASE_PATH, PAGE_SIZE, load_songs
 
 # songs = (
 #     (1, "Blinding Lights", "The Weeknd"),
@@ -18,7 +18,7 @@ from interfaces import DATABASE_PATH, load_songs
 def create_window():
     root = tk.Tk()
     root.title("Test")
-    root.geometry("800x460")
+    root.geometry("800x560")
     root.minsize(620, 340)
     root.configure(background="#ffffff")
 
@@ -50,6 +50,7 @@ def create_window():
         table_frame,
         columns=columns,
         show="headings",
+        height=PAGE_SIZE,
         style="Catalog.Treeview",
         selectmode="browse",
     )
@@ -74,27 +75,51 @@ def create_window():
     )
     status.grid(row=3, column=0, sticky="w", pady=(12, 0))
 
-    # load songs from database
-    try:
-        songs = load_songs()
-    except sqlite3.Error as error:
-        status.configure(text="Unable to load songs")
-        messagebox.showerror(
-            "Database Error",
-            "Could not read the song database at:\n{}\n\n{}".format(
-                DATABASE_PATH, error
-            ),
-            parent=root,
-        )
-        return
+    loaded_count = 0
 
-    for index, song in enumerate(songs):
-        table.insert("", "end", values=song, tags=("even",) if index % 2 else ())
+    def load_next_batch():
+        nonlocal loaded_count
+        print(f"offset: {loaded_count}\n")
+        try:
+            songs = load_songs(offset=loaded_count)
+        except sqlite3.Error as error:
+            status.configure(text="Unable to load songs")
+            messagebox.showerror(
+                "Database Error",
+                "Could not read the song database at:\n{}\n\n{}".format(
+                    DATABASE_PATH, error
+                ),
+                parent=root,
+            )
+            return
 
-    ttk.Button(content, text="Next Page", command='').grid(
-        row='10', column=1, sticky="e"
-    )
+        if not songs:
+            load_button.configure(state="disabled")
+            status.configure(
+                text="All {} songs loaded".format(loaded_count)
+                if loaded_count
+                else "No songs found"
+            )
+            return
 
+        table.delete(*table.get_children())
+        for index, song in enumerate(songs):
+            row_index = loaded_count + index
+            table.insert(
+                "",
+                "end",
+                values=song,
+                tags=("even",) if row_index % 2 else (),
+            )
+
+        loaded_count += len(songs)
+        status.configure(text="{}-{} songs loaded".format(loaded_count - len(songs) + 1, loaded_count))
+        if len(songs) < PAGE_SIZE:
+            load_button.configure(state="disabled")
+
+    load_button = ttk.Button(content, text="Next Page", command=load_next_batch)
+    load_button.grid(row=10, column=1, sticky="e")
+    load_next_batch()
 
     return root
 
