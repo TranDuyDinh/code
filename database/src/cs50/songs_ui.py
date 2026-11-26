@@ -1,8 +1,7 @@
-import sqlite3
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import ttk
 
-from interfaces import DATABASE_PATH, PAGE_SIZE, load_songs
+from control import PAGE_SIZE, load_next_batch
 
 # songs = (
 #     (1, "Blinding Lights", "The Weeknd"),
@@ -14,53 +13,6 @@ from interfaces import DATABASE_PATH, PAGE_SIZE, load_songs
 #     (7, "Heat Waves", "Glass Animals"),
 #     (8, "Peaches", "Justin Bieber, Daniel Caesar, Giveon"),
 # )
-
-
-def load_next_batch(
-    table: ttk.Treeview,
-    status: ttk.Label,
-    root: tk.Tk,
-    load_button: ttk.Button,
-    page_offset: tk.IntVar,
-) -> None:
-    offset = page_offset.get()
-    print(f"offset: {offset}\n")
-    try:
-        songs = load_songs(offset=offset)
-    except sqlite3.Error as error:
-        status.configure(text="Unable to load songs")
-        messagebox.showerror(
-            "Database Error",
-            "Could not read the song database at:\n{}\n\n{}".format(
-                DATABASE_PATH, error
-            ),
-            parent=root,
-        )
-        return
-
-    if not songs:
-        load_button.configure(state="disabled")
-        status.configure(
-            text="All {} songs loaded".format(offset) if offset else "No songs found"
-        )
-        return
-
-    table.delete(*table.get_children())
-    for index, song in enumerate(songs):
-        row_index = offset + index
-        table.insert(
-            "",
-            "end",
-            values=song,
-            tags=("even",) if row_index % 2 else (),
-        )
-
-    page_offset.set(offset + len(songs))
-    status.configure(
-        text="{}-{} songs loaded".format(offset + 1, page_offset.get())
-    )
-    if len(songs) < PAGE_SIZE:
-        load_button.configure(state="disabled")
 
 
 def create_window():
@@ -135,5 +87,3 @@ def create_window():
     load_next_batch(table, status, root, load_button, page_offset)
 
     return root
-
-
